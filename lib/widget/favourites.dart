@@ -3,10 +3,10 @@ import 'package:movieapp/utils/text.dart';
 
 import '../description.dart';
 
-class TopRatedMovie extends StatelessWidget {
-  final List toprated;
+class FavouriteMovie extends StatelessWidget {
+  final List movie_list;
 
-  const TopRatedMovie({Key? key, required this.toprated}) : super(key: key);
+  const FavouriteMovie({Key? key, required this.movie_list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class TopRatedMovie extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            font_text(text: 'Top Rated', color: Colors.white, size: 30),
+            // font_text(text: 'Popular Tv Shows', color: Colors.white, size: 30),
             SizedBox(
               height: 10,
             ),
@@ -23,7 +23,7 @@ class TopRatedMovie extends StatelessWidget {
               height: 270,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: toprated.length,
+                  itemCount: movie_list.length,
                   itemBuilder: (context, index) {
                     //for description
                     return InkWell(
@@ -32,18 +32,18 @@ class TopRatedMovie extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Description(
-                                    id: toprated[index]['id'],
-                                    name: toprated[index]['original_title'],
-                                    description: toprated[index]['overview'],
+                                    id: movie_list[index]['id'],
+                                    name: movie_list[index]['original_title'],
+                                    description: movie_list[index]['overview'],
                                     bannerurl:
                                         'https://image.tmdb.org/t/p/w500' +
-                                            toprated[index]['backdrop_path'],
+                                            movie_list[index]['backdrop_path'],
                                     posterurl:
                                         'https://image.tmdb.org/t/p/w500' +
-                                            toprated[index]['poster_path'],
-                                    vote: toprated[index]['vote_average']
+                                            movie_list[index]['poster_path'],
+                                    vote: movie_list[index]['vote_average']
                                         .toString(),
-                                    launch_on: toprated[index]['release_date']
+                                    launch_on: movie_list[index]['first_air_date']
                                         .toString())));
                       },
                       child: Container(
@@ -56,15 +56,14 @@ class TopRatedMovie extends StatelessWidget {
                                   image: DecorationImage(
                                       image: NetworkImage(
                                           'https://image.tmdb.org/t/p/w500' +
-                                              toprated[index]['poster_path']))),
+                                              movie_list[index]['poster_path']))),
                             ),
                             Container(
                               child: font_text(
                                   // ignore: prefer_if_null_operators
-                                  text:
-                                      toprated[index]['original_title'] != null
-                                          ? toprated[index]['original_title']
-                                          : 'Loading',
+                                  text: movie_list[index]['original_title'] != null
+                                      ? movie_list[index]['original_title']
+                                      : 'Loading',
                                   color: Colors.white,
                                   size: 15),
                             ),

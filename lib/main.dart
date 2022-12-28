@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/constants.dart';
 import 'package:movieapp/favorite.dart';
 import 'package:movieapp/splashscreen.dart';
 import 'package:movieapp/utils/text.dart';
@@ -37,20 +38,26 @@ class _HomeState extends State<Home> {
   List trendingMovie = [];
   List topRated = [];
   List tv = [];
-  final String apikey = '9dfa6b78294cdbe287a4b30fdc832055';
-  final String readaccesstoken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZGZhNmI3ODI5NGNkYmUyODdhNGIzMGZkYzgzMjA1NSIsInN1YiI6IjYyNTkzNDg1NjllYjkwMDA5YmE1NTE2NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zUxKj9A6scQHTJj-s5XO6-gaCfjPiP8HzI0aEbbtZ5s';
 
   //to run loadMovie calling intistate
   @override
   void initState() {
     _loadMovie();
+    configureSharedPreferences();
     super.initState();
+  }
+
+  void configureSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getStringList('fav_movies') == null) {
+      prefs.setStringList('fav_movies', []);
+    };
   }
 
   //fetching data from api
   _loadMovie() async {
-    TMDB tmdbcustom = TMDB(ApiKeys(apikey, readaccesstoken),
+    TMDB tmdbcustom = TMDB(ApiKeys(kApikey, kReadAccessToken),
         logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
     Map trendingListResult = await tmdbcustom.v3.trending.getTrending();
     Map topListResult = await tmdbcustom.v3.movies.getTopRated();
@@ -61,9 +68,6 @@ class _HomeState extends State<Home> {
       topRated = topListResult['results'];
       tv = tvListResult['results'];
     });
-    print(trendingMovie);
-    //print(topRated);
-    // print(tv);
   }
 
   @override

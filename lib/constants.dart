@@ -1,0 +1,3 @@
+const String kApikey = '9dfa6b78294cdbe287a4b30fdc832055';
+const String kReadAccessToken =
+    'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZGZhNmI3ODI5NGNkYmUyODdhNGIzMGZkYzgzMjA1NSIsInN1YiI6IjYyNTkzNDg1NjllYjkwMDA5YmE1NTE2NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zUxKj9A6scQHTJj-s5XO6-gaCfjPiP8HzI0aEbbtZ5s';
