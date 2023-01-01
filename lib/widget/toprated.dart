@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/utils/text.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
+import '../constants.dart';
 import '../description.dart';
 
 class TopRatedMovie extends StatelessWidget {
@@ -27,7 +29,33 @@ class TopRatedMovie extends StatelessWidget {
                   itemBuilder: (context, index) {
                     //for description
                     return InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        TMDB tmdb = TMDB(ApiKeys(kApikey, kReadAccessToken),
+                            logConfig: ConfigLogger(
+                                showLogs: true, showErrorLogs: true));
+                        print(toprated[index]);
+                        Map result = await tmdb.v3.movies.getVideos(toprated[index]['id']);
+                        var teaser, trailer;
+                        print('--------');
+                        print(result);
+                        for (result in result['results']) {
+                          if (teaser == null || trailer == null) {
+                            switch (result['type'].toString().toLowerCase()) {
+                              case 'teaser':
+                                teaser = result;
+                                break;
+                              case 'trailer':
+                                trailer = result;
+                                break;
+                              default:
+                                break;
+                            }
+                          }
+                        }
+
+                        print(teaser.runtimeType);
+                        print("\n");
+                        print(trailer);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -44,7 +72,10 @@ class TopRatedMovie extends StatelessWidget {
                                     vote: toprated[index]['vote_average']
                                         .toString(),
                                     launch_on: toprated[index]['release_date']
-                                        .toString())));
+                                        .toString(),
+                                    trailer: trailer,
+                                    teaser: teaser,
+                                )));
                       },
                       child: Container(
                         width: 140,
