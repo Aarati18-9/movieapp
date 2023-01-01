@@ -50,15 +50,15 @@ class _DescriptionState extends State<Description> {
 
   @override
   Widget build(BuildContext context) {
-    YoutubePlayerController _teaser_controller = YoutubePlayerController(
-      initialVideoId: widget.teaser != null ? widget.teaser!['key'] : '',
-      flags: YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
+    // YoutubePlayerController _teaser_controller = YoutubePlayerController(
+    //   initialVideoId: widget.teaser != null ? widget.teaser!['key'] : '',
+    //   flags: YoutubePlayerFlags(
+    //     autoPlay: false,
+    //     mute: false,
+    //   ),
+    // );
     YoutubePlayerController _trailer_controller = YoutubePlayerController(
-      initialVideoId: widget.teaser != null ? widget.teaser!['key'] : '',
+      initialVideoId: widget.trailer != null ? widget.trailer!['key'] : '',
       flags: YoutubePlayerFlags(
         autoPlay: false,
         // mute: true,
@@ -70,12 +70,12 @@ class _DescriptionState extends State<Description> {
       body: Container(
         child: ListView(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height / 2.75,
-              child: Stack(
-                children: [
-                  widget.trailer != null
-                      ? YoutubePlayerBuilder(
+            widget.trailer != null
+                ? Container(
+                    height: MediaQuery.of(context).size.height / 2.75,
+                    child: Stack(
+                      children: [
+                        YoutubePlayerBuilder(
                           builder: (context, player) {
                             return Column(
                               children: [player],
@@ -84,30 +84,31 @@ class _DescriptionState extends State<Description> {
                           player: YoutubePlayer(
                             controller: _trailer_controller,
                           ),
-                        )
-                      : Container(),
-                  // Positioned(
-                  //     child: Container(
-                  //   height: 250,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: Image.network(
-                  //     bannerurl,
-                  //     fit: BoxFit.cover,
-                  //   ),
-                  // )),
-                  //for rating
-                  Positioned(
-                      bottom: 10,
-                      child: font_text(
-                          text: 'Average Rating-' + widget.vote,
-                          color: Colors.white,
-                          size: 18))
-                ],
-              ),
-            ),
+                        ),
+
+                        // Positioned(
+                        //     child: Container(
+                        //   height: 250,
+                        //   width: MediaQuery.of(context).size.width,
+                        //   child: Image.network(
+                        //     bannerurl,
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // )),
+                        //for rating
+                      ],
+                    ),
+                  )
+                : Container(),
             const SizedBox(
               height: 15,
             ),
+            Container(
+                padding: const EdgeInsets.all(10),
+                child: font_text(
+                    text: 'Average Rating-' + widget.vote,
+                    color: Colors.white,
+                    size: 18)),
             Container(
               padding: const EdgeInsets.all(10),
               child: font_text(
@@ -161,7 +162,12 @@ class _DescriptionState extends State<Description> {
       //for fav floating button to navigate
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        child: this.isFavourite ? Icon(Icons.favorite, color: Colors.blue,) : Icon(Icons.favorite_outline),
+        child: this.isFavourite
+            ? Icon(
+                Icons.favorite,
+                color: Colors.blue,
+              )
+            : Icon(Icons.favorite_outline),
         onPressed: () async {
           // Navigator.push(
           //   context,
